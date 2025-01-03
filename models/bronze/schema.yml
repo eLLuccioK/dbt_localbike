@@ -1,0 +1,114 @@
+version: 2
+
+models:
+  - name: brz_lb_brands
+    columns:
+      - name: brand_id
+        description: "Primary key for this table."
+        tests:
+          - unique
+          - not_null
+
+  - name: brz_lb_categories
+    columns:
+      - name: category_id
+        description: "Primary key for this table."
+        tests:
+          - unique
+          - not_null
+
+  - name: brz_lb_customers
+    columns:
+      - name: customer_id
+        description: "Primary key for this table."
+        tests:
+          - unique
+          - not_null
+
+  - name: brz_lb_order_items
+    columns:
+      - name: order_item_id
+        description: "Primary key for this table. Concat order et item ID"
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        tests:
+          - relationships:
+              to: ref('brz_lb_orders')
+              field: order_id
+      - name: product_id
+        tests:
+          - relationships:
+              to: ref('brz_lb_products')
+              field: product_id
+
+  - name: brz_lb_orders
+    columns:
+      - name: order_id
+        description: "Primary key for this table."
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - relationships:
+              to: ref('brz_lb_customers')
+              field: customer_id
+      - name: store_id
+        tests:
+          - relationships:
+              to: ref('brz_lb_stores')
+              field: store_id
+      - name: staff_id
+        tests:
+          - relationships:
+              to: ref('brz_lb_staffs')
+              field: staff_id
+
+  - name: brz_lb_products
+    columns:
+      - name: product_id
+        description: "Primary key for this table."
+        tests:
+          - unique
+          - not_null
+      - name: category_id
+        tests:
+          - relationships:
+              to: ref('brz_lb_categories')
+              field: category_id
+      - name: brand_id
+        tests:
+          - relationships:
+              to: ref('brz_lb_brands')
+              field: brand_id
+
+  - name: brz_lb_staffs
+    columns:
+      - name: staff_id
+        description: "Primary key for this table."
+        tests:
+          - unique
+          - not_null
+      - name: store_id
+        tests:
+          - relationships:
+              to: ref('brz_lb_stores')
+              field: store_id
+
+  - name: brz_lb_stocks
+    columns:
+      - name: stock_id
+        description: "Primary key for this table. Concat store et product ID"
+        tests:
+          - unique
+          - not_null
+
+  - name: brz_lb_stores
+    columns:
+      - name: store_id
+        description: "Primary key for this table."
+        tests:
+          - unique
+          - not_null
